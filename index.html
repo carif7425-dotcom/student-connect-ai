@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#2457e6">
+<title>Student Connect</title>
+<style>
+:root{--blue:#2457e6;--navy:#14213d;--bg:#f4f7ff;--card:#fff;--muted:#667085;--line:#e6eaf2}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--navy)}
+header{background:linear-gradient(135deg,#2457e6,#6c8cff);color:white;padding:24px 18px 28px;border-radius:0 0 28px 28px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px}.brand{font-weight:800;font-size:21px;letter-spacing:.2px}.avatar{background:#ffffff30;border:1px solid #ffffff66;border-radius:50%;width:42px;height:42px;display:grid;place-items:center;font-size:21px}
+header h1{font-size:27px;margin:24px 0 5px}header p{margin:0;color:#eaf0ff}
+main{max-width:850px;margin:auto;padding:16px 14px 90px}.search{margin-top:-1px;display:flex;gap:8px}.search input{flex:1;border:1px solid var(--line);border-radius:14px;padding:13px 14px;font-size:15px;outline-color:var(--blue)}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:23px 2px 12px}.section-title h2{font-size:18px;margin:0}.muted{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.tile,.panel,.feature{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 3px 12px #172b4d08}
+.tile{cursor:pointer;text-align:left;color:inherit;font:inherit;transition:.15s}.tile:active{transform:scale(.98)}.tile .ico{font-size:26px}.tile b{display:block;margin:8px 0 3px}.tile small{color:var(--muted)}
+.feature{background:linear-gradient(120deg,#fff,#edf2ff);display:flex;gap:13px;align-items:center}.feature .big{font-size:31px}.feature h3{margin:0 0 4px;font-size:16px}.feature p{margin:0;color:var(--muted);font-size:13px}
+.panel{margin-top:12px}.panel h3{margin:0 0 10px;font-size:16px}.item{padding:12px 0;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:0}.item strong{display:block}.item small{color:var(--muted)}
+button,.btn{border:0;background:var(--blue);color:white;border-radius:12px;padding:11px 14px;font-weight:700;cursor:pointer;font-size:14px}.btn-secondary{background:#edf2ff;color:var(--blue)}input,textarea,select{font:inherit}textarea{min-height:85px;resize:vertical}
+.field{display:grid;gap:6px;margin:10px 0}.field label{font-size:13px;font-weight:700}.field input,.field textarea,.field select{border:1px solid var(--line);border-radius:12px;padding:11px;background:white;width:100%}
+.page{display:none}.page.active{display:block}.bottom{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:5}.nav{max-width:850px;width:100%;display:flex;justify-content:space-around;padding:8px 5px}.nav button{background:transparent;color:var(--muted);padding:7px 8px;font-size:11px;display:grid;gap:2px;justify-items:center}.nav button span{font-size:19px}.nav button.active{color:var(--blue)}
+.pill{display:inline-block;background:#eaf0ff;color:var(--blue);border-radius:99px;padding:4px 8px;font-size:11px;font-weight:700}.notice{background:#fff8e8;border:1px solid #f6e2ad;padding:12px;border-radius:13px;color:#72520b;font-size:13px;margin-top:12px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}header{padding-left:max(22px,calc((100% - 820px)/2));padding-right:max(22px,calc((100% - 820px)/2))}.feature{padding:20px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top"><div class="brand">🎓 Student Connect</div><div class="avatar">👨‍🎓</div></div>
+  <h1>Learn. Grow. Succeed.</h1><p>Your student space for notes, tasks and college life.</p>
+</header>
+<main>
+  <section id="home" class="page active">
+    <div class="search"><input id="searchInput" placeholder="Search notes, subjects, resources…" aria-label="Search"><button onclick="searchItems()">Search</button></div>
+    <div class="section-title"><h2>Quick access</h2><span class="muted">Made for every student</span></div>
+    <div class="grid">
+      <button class="tile" onclick="showPage('notes')"><span class="ico">📚</span><b>Study Notes</b><small>Subjects & learning</small></button>
+      <button class="tile" onclick="showPage('assignments')"><span class="ico">📝</span><b>Assignments</b><small>Track your work</small></button>
+      <button class="tile" onclick="showPage('timetable')"><span class="ico">🗓️</span><b>Time Table</b><small>Plan your day</small></button>
+      <button class="tile" onclick="showPage('exams')"><span class="ico">🎯</span><b>Exam Help</b><small>Practice questions</small></button>
+    </div>
+    <div class="section-title"><h2>Study motivation</h2><span class="pill">Daily reminder</span></div>
+    <div class="feature"><div class="big">🌱</div><div><h3>Small steps make big progress.</h3><p>Study a little every day. Ask questions, revise, and keep going.</p></div></div>
+    <div class="section-title"><h2>Community</h2><span class="muted">Student corner</span></div>
+    <div class="panel"><h3>💬 Ask or share</h3><div class="field"><label for="postText">Write a question or helpful tip</label><textarea id="postText" placeholder="e.g. Can someone explain this topic?"></textarea></div><button onclick="addPost()">Share on this device</button><div id="posts"></div></div>
+    <div class="notice">Demo version: information you add is saved only in this browser on this device. Online sharing, accounts and real college notifications need a backend.</div>
+  </section>
+
+  <section id="notes" class="page">
+    <div class="section-title"><h2>📚 Study Notes</h2><span class="muted">Starter library</span></div>
+    <div class="panel">
+      <div class="field"><label for="noteSearch">Filter by subject or title</label><input id="noteSearch" oninput="renderNotes()" placeholder="Search notes…"></div>
+      <div id="notesList"></div>
+    </div>
+    <div class="panel"><h3>Add your own note</h3><div class="field"><label>Title</label><input id="noteTitle" placeholder="e.g. Introduction to Management"></div><div class="field"><label>Subject</label><input id="noteSubject" placeholder="e.g. Management"></div><div class="field"><label>Note content</label><textarea id="noteBody" placeholder="Write your study notes…"></textarea></div><button onclick="addNote()">Save note</button></div>
+  </section>
+
+  <section id="assignments" class="page">
+    <div class="section-title"><h2>📝 Assignments</h2><span class="muted">Stay organised</span></div>
+    <div class="panel"><div class="field"><label>Assignment title</label><input id="taskTitle" placeholder="e.g. Hospital functions"></div><div class="field"><label>Subject / course</label><input id="taskSubject" placeholder="e.g. Hospital Administration"></div><div class="field"><label>Due date</label><input id="taskDate" type="date"></div><button onclick="addTask()">Add assignment</button><div id="taskList"></div></div>
+  </section>
+
+  <section id="timetable" class="page">
+    <div class="section-title"><h2>🗓️ Time Table</h2><span class="muted">Example schedule</span></div>
+    <div class="panel"><p class="muted">Edit this example to match your classes.</p><div id="scheduleList"></div><div class="field"><label>Class / subject</label><input id="className" placeholder="e.g. English"></div><div class="field"><label>Day</label><select id="classDay"><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option></select></div><div class="field"><label>Time</label><input id="classTime" placeholder="e.g. 10:00 AM"></div><button onclick="addClass()">Add class</button></div>
+  </section>
+
+  <section id="exams" class="page">
+    <div class="section-title"><h2>🎯 Exam Help</h2><span class="muted">Quick practice</span></div>
+    <div class="panel"><h3>Practice question</h3><p><b>Which is a good study habit?</b></p><label class="item"><input type="radio" name="quiz" value="a"> Studying only the night before an exam</label><label class="item"><input type="radio" name="quiz" value="b"> Regular revision and practice</label><label class="item"><input type="radio" name="quiz" value="c"> Avoiding questions</label><button onclick="checkQuiz()">Check answer</button><p id="quizResult" aria-live="polite"></p></div>
+    <div class="panel"><h3>Exam checklist</h3><label class="item"><input type="checkbox"> Review class notes</label><label class="item"><input type="checkbox"> Practise previous questions</label><label class="item"><input type="checkbox"> Prepare pens and admit card</label><label class="item"><input type="checkbox"> Sleep well before the exam</label></div>
+  </section>
+
+  <section id="profile" class="page">
+    <div class="section-title"><h2>👤 Student profile</h2></div>
+    <div class="panel"><div class="field"><label>Your name</label><input id="studentName" placeholder="Enter your name"></div><div class="field"><label>College / university</label><input id="studentCollege" placeholder="Enter your institution"></div><div class="field"><label>Course</label><input id="studentCourse" placeholder="e.g. BA, BHA, BCom, BSc"></div><button onclick="saveProfile()">Save profile on this device</button><p id="profileMessage" class="muted"></p></div>
+    <div class="notice">Privacy: this starter app does not have accounts or a server. Do not enter sensitive personal information.</div>
+  </section>
+</main>
+<nav class="bottom"><div class="nav">
+<button class="active" data-page="home" onclick="showPage('home')"><span>🏠</span>Home</button>
+<button data-page="notes" onclick="showPage('notes')"><span>📚</span>Notes</button>
+<button data-page="assignments" onclick="showPage('assignments')"><span>📝</span>Tasks</button>
+<button data-page="timetable" onclick="showPage('timetable')"><span>🗓️</span>Schedule</button>
+<button data-page="profile" onclick="showPage('profile')"><span>👤</span>Profile</button>
+</div></nav>
+<script>
+const $=id=>document.getElementById(id);
+const starterNotes=[
+ {title:"How to Study Effectively",subject:"Study Skills",body:"Make a simple study plan. Break a large topic into small parts. Revise regularly, practise questions, and ask for help when something is unclear."},
+ {title:"Introduction to Hospital Administration",subject:"Hospital Administration",body:"Hospital administration coordinates people, services and resources so that healthcare services run safely and efficiently. It supports patient care, staffing, records, supplies and daily operations."},
+ {title:"Role and Functions of a Hospital",subject:"Healthcare",body:"Hospitals provide diagnosis, treatment, emergency care, nursing, rehabilitation, prevention, health education and referral services. They also support training and research where available."}
+];
+function load(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}}
+function save(key,value){localStorage.setItem(key,JSON.stringify(value))}
+let notes=load("sc_notes",starterNotes),tasks=load("sc_tasks",[]),classes=load("sc_classes",[
+ {day:"Monday",time:"9:00 AM",name:"Introduction to Management"},
+ {day:"Tuesday",time:"10:00 AM",name:"English"},
+ {day:"Wednesday",time:"11:00 AM",name:"Computer Basics"}
+]),posts=load("sc_posts",[]),profile=load("sc_profile",{});
+function showPage(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));window.scrollTo({top:0,behavior:"smooth"});if(id==="notes")renderNotes();if(id==="assignments")renderTasks();if(id==="timetable")renderClasses()}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function renderNotes(){let q=($("noteSearch")?.value||"").toLowerCase();let found=notes.filter(n=>(n.title+" "+n.subject+" "+n.body).toLowerCase().includes(q));$("notesList").innerHTML=found.length?found.map((n,i)=>`<div class="item"><strong>${esc(n.title)}</strong><small>${esc(n.subject)}</small><p>${esc(n.body)}</p><button class="btn-secondary" onclick="deleteNote(${notes.indexOf(n)})">Delete</button></div>`).join(""):"<p class='muted'>No notes found. Add a note below.</p>"}
+function addNote(){let title=$("noteTitle").value.trim(),subject=$("noteSubject").value.trim(),body=$("noteBody").value.trim();if(!title||!body){alert("Please enter a title and note content.");return}notes.unshift({title,subject:subject||"General",body});save("sc_notes",notes);$("noteTitle").value=$("noteSubject").value=$("noteBody").value="";renderNotes()}
+function deleteNote(i){notes.splice(i,1);save("sc_notes",notes);renderNotes()}
+function renderTasks(){$("taskList").innerHTML=tasks.length?tasks.map((t,i)=>`<div class="item"><label><input type="checkbox" ${t.done?"checked":""} onchange="toggleTask(${i},this.checked)"> <strong style="display:inline">${esc(t.title)}</strong></label><br><small>${esc(t.subject)} · Due: ${esc(t.date||"Not set")}</small><button class="btn-secondary" style="float:right" onclick="deleteTask(${i})">Remove</button><div style="clear:both"></div></div>`).join(""):"<p class='muted'>No assignments added yet.</p>"}
+function addTask(){let title=$("taskTitle").value.trim();if(!title){alert("Please enter an assignment title.");return}tasks.push({title,subject:$("taskSubject").value.trim()||"General",date:$("taskDate").value,done:false});save("sc_tasks",tasks);$("taskTitle").value=$("taskSubject").value=$("taskDate").value="";renderTasks()}
+function toggleTask(i,v){tasks[i].done=v;save("sc_tasks",tasks);renderTasks()}function deleteTask(i){tasks.splice(i,1);save("sc_tasks",tasks);renderTasks()}
+function renderClasses(){$("scheduleList").innerHTML=classes.length?classes.map((c,i)=>`<div class="item"><strong>${esc(c.day)} · ${esc(c.time)}</strong>${esc(c.name)} <button class="btn-secondary" style="float:right" onclick="deleteClass(${i})">Remove</button><div style="clear:both"></div></div>`).join(""):"<p class='muted'>No classes added yet.</p>"}
+function addClass(){let name=$("className").value.trim(),time=$("classTime").value.trim();if(!name||!time){alert("Enter a class name and time.");return}classes.push({name,time,day:$("classDay").value});save("sc_classes",classes);$("className").value=$("classTime").value="";renderClasses()}
+function deleteClass(i){classes.splice(i,1);save("sc_classes",classes);renderClasses()}
+function addPost(){let body=$("postText").value.trim();if(!body)return;posts.unshift({body,date:new Date().toLocaleString()});save("sc_posts",posts);$("postText").value="";renderPosts()}
+function renderPosts(){$("posts").innerHTML=posts.map(p=>`<div class="item"><p>${esc(p.body)}</p><small>${esc(p.date)}</small></div>`).join("")}
+function checkQuiz(){let a=document.querySelector('input[name="quiz"]:checked');$("quizResult").textContent=!a?"Please choose an answer.":a.value==="b"?"Correct! Regular revision and practice help you learn.":"Try again. Regular revision and practice is the best answer."}
+function saveProfile(){profile={name:$("studentName").value.trim(),college:$("studentCollege").value.trim(),course:$("studentCourse").value.trim()};save("sc_profile",profile);$("profileMessage").textContent="Profile saved on this device."}
+function searchItems(){let q=$("searchInput").value.trim();showPage("notes");$("noteSearch").value=q;renderNotes()}
+function init(){renderNotes();renderTasks();renderClasses();renderPosts();$("studentName").value=profile.name||"";$("studentCollege").value=profile.college||"";$("studentCourse").value=profile.course||""}
+init();
+</script>
+</body></html>
