@@ -51,7 +51,21 @@ button,.btn{border:0;background:var(--blue);color:white;border-radius:12px;paddi
       <div class="field"><label for="noteSearch">Filter by subject or title</label><input id="noteSearch" oninput="renderNotes()" placeholder="Search notes…"></div>
       <div id="notesList"></div>
     </div>
-    <div class="panel"><h3>Add your own note</h3><div class="field"><label>Title</label><input id="noteTitle" placeholder="e.g. Introduction to Management"></div><div class="field"><label>Subject</label><input id="noteSubject" placeholder="e.g. Management"></div><div class="field"><label>Note content</label><textarea id="noteBody" placeholder="Write your study notes…"></textarea></div><button onclick="addNote()">Save note</button></div>
+    
+<div class="panel">
+  <h3>🤖 AI Study Notes</h3>
+  <label>Topic ka naam</label>
+  <input id="aiTopic" placeholder="Functions of Hospital">
+  <label>Language</label>
+  <select id="aiLanguage">
+    <option value="simple English">Simple English</option>
+    <option value="Urdu">Urdu</option>
+    <option value="Roman Urdu">Roman Urdu</option>
+  </select>
+  <button onclick="generateNotes()">Generate AI Notes</button>
+  <p id="aiStatus"></p>
+  <div id="aiResult"></div>
+</div><div class="panel"><h3>Add your own note</h3><div class="field"><label>Title</label><input id="noteTitle" placeholder="e.g. Introduction to Management"></div><div class="field"><label>Subject</label><input id="noteSubject" placeholder="e.g. Management"></div><div class="field"><label>Note content</label><textarea id="noteBody" placeholder="Write your study notes…"></textarea></div><button onclick="addNote()">Save note</button></div>
   </section>
 
   <section id="assignments" class="page">
@@ -115,5 +129,63 @@ function saveProfile(){profile={name:$("studentName").value.trim(),college:$("st
 function searchItems(){let q=$("searchInput").value.trim();showPage("notes");$("noteSearch").value=q;renderNotes()}
 function init(){renderNotes();renderTasks();renderClasses();renderPosts();$("studentName").value=profile.name||"";$("studentCollege").value=profile.college||"";$("studentCourse").value=profile.course||""}
 init();
-</script>
+</scripJavaScript
+
+async function generateNotes() {
+  const topic = document.getElementById("aiTopic").value.trim();
+  const language = document.getElementById("aiLanguage").value;
+  const status = document.getElementById("aiStatus");
+  const result = document.getElementById("aiResult");
+
+  if (!topic) {
+    status.textContent = "Please enter a topic first.";
+    return;
+  }
+
+  status.textContent = "AI notes are being prepared...";
+  result.textContent = "";
+
+  try {
+    const response = await fetch("/.netlify/functions/generate-notes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        topic: topic,
+        kind: "study notes",
+        language: language
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Could not generate notes.");
+    }
+
+    const notes = data.notes || "";
+    const text = document.createElement("p");
+    text.style.whiteSpace = "pre-wrap";
+    text.textContent = notes;
+
+    const saveButton = document.createElement("button");
+    saveButton.textContent = "Save AI Notes";
+    saveButton.onclick = function () {
+      const oldNotes = JSON.parse(localStorage.getItem("sc_notes") || "[]");
+      oldNotes.unshift({
+        title: topic,
+        subject: "AI Notes",
+        body: notes
+      });
+      localStorage.setItem("sc_notes", JSON.stringify(oldNotes));
+      status.textContent = "AI notes saved on this device!";
+    };
+
+    result.appendChild(text);
+    result.appendChild(saveButton);
+    status.textContent = "Your notes are ready!";
+  } catch (error) {
+    status.textContent = "Error: " + error.message;
+  }
+}
+t>
 </body></html>
