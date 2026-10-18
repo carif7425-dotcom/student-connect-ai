@@ -127,7 +127,6 @@ function renderPosts(){$("posts").innerHTML=posts.map(p=>`<div class="item"><p>$
 function checkQuiz(){let a=document.querySelector('input[name="quiz"]:checked');$("quizResult").textContent=!a?"Please choose an answer.":a.value==="b"?"Correct! Regular revision and practice help you learn.":"Try again. Regular revision and practice is the best answer."}
 function saveProfile(){profile={name:$("studentName").value.trim(),college:$("studentCollege").value.trim(),course:$("studentCourse").value.trim()};save("sc_profile",profile);$("profileMessage").textContent="Profile saved on this device."}
 function searchItems(){let q=$("searchInput").value.trim();showPage("notes");$("noteSearch").value=q;renderNotes()}
-function init()HTML
 
 function init(){renderNotes();renderTasks();renderClasses();renderPosts();$("studentName").value=profile.name||"";$("studentCollege").value=profile.college||"";$("studentCourse").value=profile.course||""}
 init();
