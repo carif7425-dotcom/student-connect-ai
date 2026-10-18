@@ -127,15 +127,16 @@ function renderPosts(){$("posts").innerHTML=posts.map(p=>`<div class="item"><p>$
 function checkQuiz(){let a=document.querySelector('input[name="quiz"]:checked');$("quizResult").textContent=!a?"Please choose an answer.":a.value==="b"?"Correct! Regular revision and practice help you learn.":"Try again. Regular revision and practice is the best answer."}
 function saveProfile(){profile={name:$("studentName").value.trim(),college:$("studentCollege").value.trim(),course:$("studentCourse").value.trim()};save("sc_profile",profile);$("profileMessage").textContent="Profile saved on this device."}
 function searchItems(){let q=$("searchInput").value.trim();showPage("notes");$("noteSearch").value=q;renderNotes()}
+function init()HTML
+
 function init(){renderNotes();renderTasks();renderClasses();renderPosts();$("studentName").value=profile.name||"";$("studentCollege").value=profile.college||"";$("studentCourse").value=profile.course||""}
 init();
-</scripJavaScript
 
 async function generateNotes() {
-  const topic = document.getElementById("aiTopic").value.trim();
-  const language = document.getElementById("aiLanguage").value;
-  const status = document.getElementById("aiStatus");
-  const result = document.getElementById("aiResult");
+  const topic = $("aiTopic").value.trim();
+  const language = $("aiLanguage").value;
+  const status = $("aiStatus");
+  const result = $("aiResult");
 
   if (!topic) {
     status.textContent = "Please enter a topic first.";
@@ -162,21 +163,23 @@ async function generateNotes() {
       throw new Error(data.error || "Could not generate notes.");
     }
 
-    const notes = data.notes || "";
+    const noteText = data.notes || "";
     const text = document.createElement("p");
     text.style.whiteSpace = "pre-wrap";
-    text.textContent = notes;
+    text.textContent = noteText;
 
     const saveButton = document.createElement("button");
     saveButton.textContent = "Save AI Notes";
+
     saveButton.onclick = function () {
-      const oldNotes = JSON.parse(localStorage.getItem("sc_notes") || "[]");
-      oldNotes.unshift({
+      notes.unshift({
         title: topic,
         subject: "AI Notes",
-        body: notes
+        body: noteText
       });
-      localStorage.setItem("sc_notes", JSON.stringify(oldNotes));
+
+      save("sc_notes", notes);
+      renderNotes();
       status.textContent = "AI notes saved on this device!";
     };
 
@@ -187,5 +190,7 @@ async function generateNotes() {
     status.textContent = "Error: " + error.message;
   }
 }
-t>
-</body></html>
+</script>
+</body>
+</html>
+
