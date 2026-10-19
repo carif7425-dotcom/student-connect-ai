@@ -1,0 +1,16 @@
+JSON
+{
+  "name": "Student Connect",
+  "short_name": "Student Connect",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f7ff",
+  "theme_color": "#2457e6",
+  "icons": [
+    {
+      "src": "/Graduation-cap.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}
