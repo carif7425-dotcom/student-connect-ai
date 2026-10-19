@@ -149,7 +149,7 @@ async function generateNotes() {
   result.textContent = "";
 
   try {
-    const response = await fetch("/.netlify/functions/generate-notes", {
+    const response = await fetch("/api/generate-notes", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
